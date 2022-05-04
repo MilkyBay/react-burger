@@ -1,0 +1,44 @@
+header {
+  display: flex;
+  justify-content: center;
+  background: #1c1c21;
+}
+
+.inactive {
+  color: var(--inactive-color);
+}
+
+.wrapper {
+  display: flex;
+  max-width: 1280px;
+  max-height: 56px;
+  width: 100%;
+}
+
+.leftSide {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.centralSide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.rightSide {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.headerElement {
+  display: flex;
+  align-items: center;
+}
+
+.headerElement > * {
+  cursor: pointer;
+}

@@ -1,0 +1,9 @@
+.info {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.infoElement {
+  color: var(--inactive-color);
+}

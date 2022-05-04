@@ -1,0 +1,38 @@
+::-webkit-scrollbar {
+  width: 8px;
+  height: 50%;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(47, 47, 55, 1);
+  box-shadow: inset 0 0 6px rgba(47, 47, 55, 1);
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(133, 133, 173, 1);
+  box-shadow: inset 0 0 6px rgba(133, 133, 173, 1);
+}
+
+:root {
+  --inactive-color: #8585ad;
+}
+
+body {
+  overflow: hidden;
+}
+
+p {
+  cursor: default;
+  text-align: center;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
+.contentWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
