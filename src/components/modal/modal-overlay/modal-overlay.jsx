@@ -4,9 +4,7 @@ import styles from "./modal-overlay.module.css";
 
 const modal = document.getElementById("modal");
 
-const ModalOverlay = (props) => {
-  const { children } = props;
-
+const ModalOverlay = ({ children }) => {
   return ReactDOM.createPortal(
     <div className={styles.overlay}>{children}</div>,
     modal

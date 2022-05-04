@@ -7,9 +7,7 @@ import styles from "./constructor-item.module.css";
 import clsx from "clsx";
 import { ingredientPropTypes } from "../../../utils/common-prop-types";
 
-const ConstructorItem = (props) => {
-  const { item, index, arrayLength } = props;
-  const type = index === 0 ? "top" : index === arrayLength - 1 ? "bottom" : "";
+const ConstructorItem = ({ item, type }) => {
   return (
     <div className={clsx(styles.wrapper, "mb-4")}>
       <div style={{ width: "32px" }}>
@@ -30,8 +28,7 @@ const ConstructorItem = (props) => {
 
 ConstructorItem.propTypes = {
   item: ingredientPropTypes.isRequired,
-  index: PropTypes.number.isRequired,
-  arrayLength: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default ConstructorItem;

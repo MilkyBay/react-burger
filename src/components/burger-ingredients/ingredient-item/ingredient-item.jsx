@@ -7,12 +7,11 @@ import {
 import clsx from "clsx";
 import { ingredientPropTypes } from "../../../utils/common-prop-types";
 
-const IngredientItem = (props) => {
-  const { item, onOpen, addToCart } = props;
-  const { name, image, price } = item;
+const IngredientItem = ({ item, onOpen, addToCart, count }) => {
+  const { name, image, price, _id } = item;
   return (
-    <div key={item._id} className={styles.wrapper}>
-      <Counter size="default" count={0} />
+    <div key={_id} className={styles.wrapper}>
+      {count > 0 && <Counter size="default" count={count} />}
       <img
         src={image}
         alt="ingredient_img"
@@ -37,6 +36,7 @@ IngredientItem.propTypes = {
   item: ingredientPropTypes.isRequired,
   onOpen: PropTypes.func.isRequired,
   addToCart: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
 };
 
 export default IngredientItem;

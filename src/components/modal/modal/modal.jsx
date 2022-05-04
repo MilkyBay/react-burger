@@ -4,8 +4,7 @@ import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import clsx from "clsx";
 
-const Modal = (props) => {
-  const { modalName, onClose, children } = props;
+const Modal = ({ modalName, onClose, children }) => {
   const modalRef = useRef(null);
 
   useEffect(() => {

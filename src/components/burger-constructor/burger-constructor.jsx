@@ -12,10 +12,17 @@ import ModalOverlay from "../modal/modal-overlay/modal-overlay";
 import Modal from "../modal/modal/modal";
 import { statePropTypes } from "../../utils/common-prop-types";
 
-const BurgerConstructor = (props) => {
-  const { state, setState } = props;
-  const { orderedIngredients } = state;
+const BurgerConstructor = ({ state: { orderedIngredients }, setState }) => {
   const [orderDone, setOrderDone] = useState(null);
+  const getType = (index, arrayLength) => {
+    let type = "";
+    if (index === 0) {
+      type = "top";
+    } else if (index === arrayLength - 1) {
+      type = "bottom";
+    }
+    return type;
+  };
   return (
     <div className={clsx(styles.wrapper, "pt-25", "pl-4", "pr-4")}>
       {orderedIngredients.length === 0 ? (
@@ -29,10 +36,9 @@ const BurgerConstructor = (props) => {
           <div className={clsx(styles.topSide, "pr-2")}>
             {orderedIngredients.map((item, index, array) => (
               <ConstructorItem
-                key={index}
+                key={item._id + index}
                 item={item}
-                index={index}
-                arrayLength={array.length}
+                type={getType(index, array.length)}
               />
             ))}
           </div>

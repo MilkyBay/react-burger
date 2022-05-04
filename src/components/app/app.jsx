@@ -4,6 +4,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import styles from "./app.module.css";
 import { filterData } from "../../utils/data";
+import { checkReponse } from "../../utils/common-functions";
 
 const api = "https://norma.nomoreparties.space/api/ingredients";
 
@@ -15,16 +16,17 @@ function App() {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = () => {
       setState({ ...state, loading: true });
-      try {
-        const res = await fetch(api);
-        const data = await res.json();
-        const result = filterData(data.data);
-        setState({ ...state, burgerIngredients: result, loading: false });
-      } catch (err) {
-        setState({ ...state, burgerIngredients: [], loading: false });
-      }
+      fetch(api)
+        .then((res) => checkReponse(res))
+        .then((data) => Promise.resolve(filterData(data.data)))
+        .then((res) =>
+          setState({ ...state, burgerIngredients: res, loading: false })
+        )
+        .catch((err) =>
+          setState({ ...state, burgerIngredients: [], loading: false })
+        );
     };
 
     fetchData();

@@ -3,9 +3,9 @@ import { ingredientPropTypes } from "../../../utils/common-prop-types";
 
 const ingredientInfo = ["Калории,ккал", "Белки, г", "Жиры, г", "Углеводы, г"];
 
-const IngredientsDetails = (props) => {
-  const { element } = props;
-  const { name, image_large, calories, proteins, fat, carbohydrates } = element;
+const IngredientsDetails = ({
+  element: { name, image_large, calories, proteins, fat, carbohydrates },
+}) => {
   const substancesValues = [calories, proteins, fat, carbohydrates];
   return (
     <>
@@ -13,7 +13,7 @@ const IngredientsDetails = (props) => {
       <p className="text text_type_main-medium mb-8">{name}</p>
       <div className={styles.info}>
         {substancesValues.map((i, index) => (
-          <div className={styles.infoElement}>
+          <div key={i} className={styles.infoElement}>
             <p className="text text_type_main-small mb-2">
               {ingredientInfo[index]}
             </p>
