@@ -1,0 +1,33 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+
+.wrapper > p {
+  text-align: start;
+}
+
+.tab {
+  display: flex;
+}
+
+.ingredientsWrapper {
+  display: inherit;
+  flex-direction: inherit;
+  overflow-y: scroll;
+  min-height: min-content;
+  max-height: calc(71.6vh - 62px);
+}
+
+.ingredientsWrapper > div > p {
+  text-align: start;
+}
+
+.ingredientsArray {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  row-gap: 32px;
+  column-gap: 24px;
+}

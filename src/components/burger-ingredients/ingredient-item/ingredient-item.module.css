@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  max-width: 272px;
+}
+
+.img {
+  box-sizing: content-box;
+  cursor: pointer;
+}
+
+.price {
+  display: flex;
+  cursor: pointer;
+}
+
+.price > * {
+  cursor: pointer;
+}
+
+.nameWrapper {
+  display: flex;
+  justify-content: center;
+  height: 48px;
+}
