@@ -3,42 +3,27 @@ import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import styles from "./app.module.css";
-import { filterData } from "../../utils/data";
-import { checkReponse } from "../../utils/common-functions";
-
-const api = "https://norma.nomoreparties.space/api/ingredients";
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { get } from '../../services/slices';
+import { useDispatch } from "react-redux";
 
 function App() {
-  const [state, setState] = React.useState({
-    burgerIngredients: [],
-    orderedIngredients: [],
-    loading: false,
-  });
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = () => {
-      setState({ ...state, loading: true });
-      fetch(api)
-        .then((res) => checkReponse(res))
-        .then((data) => Promise.resolve(filterData(data.data)))
-        .then((res) =>
-          setState({ ...state, burgerIngredients: res, loading: false })
-        )
-        .catch((err) =>
-          setState({ ...state, burgerIngredients: [], loading: false })
-        );
-    };
-
-    fetchData();
-  }, []);
+    dispatch(get());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <main className={styles.contentWrapper}>
-        <BurgerIngredients state={state} setState={setState} />
-        <BurgerConstructor state={state} setState={setState} />
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.contentWrapper}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </main>
+      </DndProvider>
     </div>
   );
 }

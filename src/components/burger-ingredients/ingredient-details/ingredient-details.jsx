@@ -13,7 +13,7 @@ const IngredientsDetails = ({
       <p className="text text_type_main-medium mb-8">{name}</p>
       <div className={styles.info}>
         {substancesValues.map((i, index) => (
-          <div key={i} className={styles.infoElement}>
+          <div key={Math.random() * i} className={styles.infoElement}>
             <p className="text text_type_main-small mb-2">
               {ingredientInfo[index]}
             </p>
