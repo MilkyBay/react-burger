@@ -20,3 +20,10 @@ export const ingredientPropTypes = PropTypes.shape({
   image_large: PropTypes.string.isRequired,
   __v: PropTypes.number.isRequired,
 });
+
+// export const ingredientsBlockPropTypes = PropTypes.shape({
+//   data: PropTypes.arrayOf(ingredientPropTypes),
+//   key: PropTypes.string,
+//   ref: PropTypes.any,
+//   title: PropTypes.string,
+// });

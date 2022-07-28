@@ -12,6 +12,10 @@
   display: flex;
 }
 
+.tab > a {
+  text-decoration: none;
+}
+
 .ingredientsWrapper {
   display: inherit;
   flex-direction: inherit;

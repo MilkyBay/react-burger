@@ -1,8 +1,11 @@
 .wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 600px;
   box-sizing: border-box;
+  border: 1px solid transparent;
+  border-radius: 10px;
 }
 
 .noElements {
@@ -16,16 +19,29 @@
 .topSide {
   min-height: calc(62vh - 52px);
   max-height: calc(65.6vh - 52px);
-  overflow-y: scroll;
 }
 
 .bottomSide {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 20px;
 }
 
 .price {
   display: flex;
   align-items: center;
   gap: 9.5px;
+}
+
+.buns {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fillings {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding-right: 8px;
+  max-height: calc(100% - 200px);
 }

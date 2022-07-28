@@ -1,4 +1,4 @@
-.wrapper {
+.element {
   display: flex;
   align-items: center;
 }
@@ -16,4 +16,8 @@
 
 .price {
   display: flex;
+}
+
+.wrapper:not(:last-child) {
+  margin-bottom: 16px;
 }

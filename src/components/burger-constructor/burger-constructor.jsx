@@ -1,76 +1,173 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import {
   Button,
+  ConstructorElement,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
-import ConstructorItem from "./constructor-item/constructor-item";
+import ConstructorItems from "./constructor-item/constructor-item";
 import clsx from "clsx";
 import OrderDetails from "./order-details/order-details";
-import ModalOverlay from "../modal/modal-overlay/modal-overlay";
 import Modal from "../modal/modal/modal";
-import { statePropTypes } from "../../utils/common-prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { postOrder, setMix, setOrder } from "../../services/slices";
+import { useDrop } from "react-dnd/dist/hooks";
+import { v4 as uuidv4 } from "uuid";
 
-const BurgerConstructor = ({ state: { orderedIngredients }, setState }) => {
+const EKey = {
+  bun: "buns",
+  sauce: "sauces",
+  main: "fillings",
+};
+
+const BurgerConstructor = () => {
+  const dispatch = useDispatch();
+  const ingredients = useSelector((state) => state.data.ingredients);
+  const mix = useSelector((state) => state.data.mix);
   const [orderDone, setOrderDone] = useState(null);
-  const getType = (index, arrayLength) => {
-    let type = "";
-    if (index === 0) {
-      type = "top";
-    } else if (index === arrayLength - 1) {
-      type = "bottom";
-    }
-    return type;
+
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(elemId) {
+      const currentIngredient = ingredients.find(
+        (elem) => elem._id === elemId.id
+      );
+      dispatch(
+        setMix({
+          ...mix,
+          [EKey[currentIngredient.type]]:
+            currentIngredient.type === "bun"
+              ? {
+                  ...currentIngredient,
+                  price: currentIngredient.price * 2,
+                }
+              : mix[EKey[currentIngredient.type]].concat({
+                  ...currentIngredient,
+                  uuid: uuidv4(),
+                  sort_order: mix.sauces.length + mix.fillings.length + 1,
+                }),
+        })
+      );
+    },
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+  });
+
+  const handleOrder = async () => {
+    dispatch(setOrder(Math.floor(Math.random() * 100000)));
+    const orderedIngredients = {
+      ingredients: Object.values(mix)
+        .flat(1)
+        .map((item) => item._id),
+    };
+    dispatch(postOrder(orderedIngredients));
+    setOrderDone(true);
   };
+
+  const deleteItem = (item) => () => {
+    const filteredSauces = mix.sauces.filter(
+      (ingredient) => ingredient.uuid !== item.uuid
+    );
+    const filteredFillings = mix.fillings.filter(
+      (ingredient) => ingredient.uuid !== item.uuid
+    );
+    const newMix = {
+      buns: mix.buns,
+      sauces: filteredSauces.map((elem) => {
+        if (item.sort_order < elem.sort_order)
+          return { ...elem, sort_order: elem.sort_order - 1 };
+        return elem;
+      }),
+      fillings: filteredFillings.map((elem) => {
+        if (item.sort_order < elem.sort_order)
+          return { ...elem, sort_order: elem.sort_order - 1 };
+        return elem;
+      }),
+    };
+    dispatch(setMix(newMix));
+  };
+
+  const getTotal = () => {
+    return Object.values(mix)
+      .flat(1)
+      .reduce((prev, item) => prev + item.price, 0);
+  };
+
   return (
-    <div className={clsx(styles.wrapper, "pt-25", "pl-4", "pr-4")}>
-      {orderedIngredients.length === 0 ? (
+    <div
+      className={clsx(styles.wrapper, "mt-25", "pl-4")}
+      ref={dropTarget}
+      style={{ borderColor: isHover ? "#8585ad" : "transparent" }}
+    >
+      {!mix.fillings.length && !mix.buns._id && !mix.sauces.length && (
         <div className={styles.noElements}>
           <p className="text text_type_main-large">
             Вы не выбрали ни одного ингредиента
           </p>
         </div>
-      ) : (
+      )}
+      {(mix.fillings.length || mix.sauces.length || mix.buns._id) && (
         <>
-          <div className={clsx(styles.topSide, "pr-2")}>
-            {orderedIngredients.map((item, index, array) => (
-              <ConstructorItem
-                key={item._id + index}
-                item={item}
-                type={getType(index, array.length)}
-              />
-            ))}
+          <div className={styles.topSide}>
+            {mix && mix.buns && mix.buns._id && (
+              <div className={clsx(styles.buns, "mb-4", "mt-2", "pr-4")}>
+                <ConstructorElement
+                  price={mix.buns.price / 2}
+                  type="top"
+                  thumbnail={mix.buns.image}
+                  text={`${mix.buns.name} (верх)`}
+                  isLocked={true}
+                />
+              </div>
+            )}
+            <div className={clsx(styles.fillings)}>
+              {[...mix.sauces, ...mix.fillings]
+                .sort((a, b) => a.sort_order - b.sort_order)
+                .map((item, index) => (
+                  <ConstructorItems
+                    key={item.uuid}
+                    index={index}
+                    item={item}
+                    handleDelete={deleteItem}
+                  />
+                ))}
+            </div>
+            {mix && mix.buns && mix.buns._id && (
+              <div className={clsx(styles.buns, "mt-4", "pr-4")}>
+                <ConstructorElement
+                  price={mix.buns.price / 2}
+                  type="bottom"
+                  thumbnail={mix.buns.image}
+                  text={`${mix.buns.name} (низ)`}
+                  isLocked={true}
+                />
+              </div>
+            )}
           </div>
-          <div className={clsx(styles.bottomSide, "pt-10")}>
+          <div className={clsx(styles.bottomSide, "pt-10", "pr-4")}>
             <div className={clsx(styles.price, "mr-10")}>
-              <p className="text text_type_digits-medium">610</p>
+              <p className="text text_type_digits-medium">{getTotal()}</p>
               <CurrencyIcon type="primary" />
             </div>
             <Button
               type="primary"
               size="large"
-              onClick={() => setOrderDone(true)}
+              onClick={handleOrder}
+              disabled={!(mix && mix.buns && mix.buns._id)}
             >
               Оформить заказ
             </Button>
           </div>
           {orderDone && (
-            <ModalOverlay>
-              <Modal onClose={setOrderDone}>
-                <OrderDetails />
-              </Modal>
-            </ModalOverlay>
+            <Modal onClose={setOrderDone}>
+              <OrderDetails />
+            </Modal>
           )}
         </>
       )}
     </div>
   );
-};
-
-BurgerConstructor.propTypes = {
-  state: statePropTypes.isRequired,
-  setState: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;
