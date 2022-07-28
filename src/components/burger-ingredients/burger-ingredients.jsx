@@ -5,7 +5,6 @@ import { ingredientsOptions } from "../../utils/data";
 import IngredientItem from "./ingredient-item/ingredient-item";
 import IngredientsDetails from "./ingredient-details/ingredient-details";
 import clsx from "clsx";
-import ModalOverlay from "../modal/modal-overlay/modal-overlay";
 import Modal from "../modal/modal/modal";
 import { useDispatch, useSelector } from "react-redux";
 import { setIngredientInfo, removeIngredientInfo, setMix } from "../../services/slices";
@@ -102,14 +101,12 @@ const BurgerIngredients = () => {
         ))}
       </div>
       {currentIngredient && (
-        <ModalOverlay>
-          <Modal modalName={"Детали ингредиента"} onClose={() => {
-            setCurrentIngredient(null);
-            dispatch(removeIngredientInfo());
-          }}>
-            <IngredientsDetails element={currentIngredient} />
-          </Modal>
-        </ModalOverlay>
+        <Modal modalName={"Детали ингредиента"} onClose={() => {
+          setCurrentIngredient(null);
+          dispatch(removeIngredientInfo());
+        }}>
+          <IngredientsDetails element={currentIngredient} />
+        </Modal>
       )}
     </div>
   );

@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import clsx from "clsx";
+import ReactDOM from "react-dom";
 
 const Modal = ({ modalName, onClose, children }) => {
   const modalRef = useRef(null);
@@ -29,19 +30,22 @@ const Modal = ({ modalName, onClose, children }) => {
     };
   }, [modalRef, onClose]);
 
-  return (
-    <div
-      className={clsx(styles.modal, "pt-10", "pr-10", "pl-10", "pb-15")}
-      ref={modalRef}
-    >
-      <button className={styles.closeBtn} onClick={() => onClose(null)}>
-        <CloseIcon type="primary" />
-      </button>
-      <div className={styles.name}>
-        <p className="text text_type_main-large">{modalName}</p>
+  return ReactDOM.createPortal(
+    <div className={styles.overlay}>
+      <div
+        className={clsx(styles.modal, "pt-10", "pr-10", "pl-10", "pb-15")}
+        ref={modalRef}
+      >
+        <button className={styles.closeBtn} onClick={() => onClose(null)}>
+          <CloseIcon type="primary" />
+        </button>
+        <div className={styles.name}>
+          <p className="text text_type_main-large">{modalName}</p>
+        </div>
+        {children}
       </div>
-      {children}
-    </div>
+    </div>,
+    document.getElementById("modal")
   );
 };
 
