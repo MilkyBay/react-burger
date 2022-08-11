@@ -1,0 +1,57 @@
+.wrapper {
+  /* display: flex; */
+  /* justify-content: center; */
+  display: grid;
+  grid-template-columns: 1fr 480px 1fr;
+  margin-top: 16vh;
+}
+
+.buttonsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 320px;
+  margin: 0 60px 0 auto;
+}
+
+.buttonsWrapper > a {
+  text-decoration: none;
+  color: #8585ad;
+}
+
+.buttonsActive {
+  color: white;
+}
+
+.navButton {
+  height: 64px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.navButton > a {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.navButton:hover {
+  color: white;
+}
+
+.note {
+  text-align: start;
+  color: #8585ad;
+  opacity: 0.4;
+}
+
+.formsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.formsWrapper > div > div {
+  width: 480px;
+}

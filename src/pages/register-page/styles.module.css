@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 16vh;
+}
+
+.topSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 80px;
+}
+
+.topSide > div > div {
+  width: 480px;
+}
+
+.textWithButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textWithButton > button {
+  padding: 0 8px;
+}
+
+.textWithButton a {
+  text-decoration: none;
+}
