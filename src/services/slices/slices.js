@@ -1,5 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { checkResponse } from "../utils/common-functions";
+import { checkResponse } from "../../utils/common-functions";
+
+const baseUrl = 'https://norma.nomoreparties.space/api';
+
+const urls = {
+  ingredients: 'ingredients',
+  orders: 'orders'
+}
 
 const initialState = {
   ingredients: [],
@@ -40,13 +47,11 @@ const initialState = {
   error: null,
 };
 
-const baseUrl = `https://norma.nomoreparties.space/api`;
-
 export const getIngredients = createAsyncThunk(
   "data/getIngredients",
   async () => {
     try {
-      const res = await fetch(`${baseUrl}/ingredients`);
+      const res = await fetch(`${baseUrl}/${urls.ingredients}`);
       const value = await checkResponse(res);
       if (value.success) {
         return value.data;
@@ -59,7 +64,7 @@ export const getIngredients = createAsyncThunk(
 
 export const postOrder = createAsyncThunk("data/postOrder", async (data) => {
   try {
-    const res = await fetch(`${baseUrl}/orders`, {
+    const res = await fetch(`${baseUrl}/${urls.orders}`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
@@ -101,7 +106,6 @@ const dataSlice = createSlice({
     },
     [getIngredients.fulfilled.type]: (state, action) => {
       state.isLoading = false;
-      state.error = null;
       state.ingredients = action.payload;
       return state;
     },
@@ -111,7 +115,6 @@ const dataSlice = createSlice({
     },
     [postOrder.fulfilled.type]: (state, action) => {
       state.isLoading = false;
-      state.error = null;
       state.order = action.payload;
       return state;
     },

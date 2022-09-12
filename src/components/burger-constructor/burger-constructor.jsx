@@ -10,7 +10,7 @@ import clsx from "clsx";
 import OrderDetails from "./order-details/order-details";
 import Modal from "../modal/modal/modal";
 import { useDispatch, useSelector } from "react-redux";
-import { postOrder, setMix, setOrder } from "../../services/slices";
+import { postOrder, setMix, setOrder } from "../../services/slices/slices";
 import { useDrop } from "react-dnd/dist/hooks";
 import { v4 as uuidv4 } from "uuid";
 

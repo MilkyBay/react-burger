@@ -7,7 +7,7 @@ import IngredientsDetails from "./ingredient-details/ingredient-details";
 import clsx from "clsx";
 import Modal from "../modal/modal/modal";
 import { useDispatch, useSelector } from "react-redux";
-import { setIngredientInfo, removeIngredientInfo, setMix } from "../../services/slices";
+import { setIngredientInfo, removeIngredientInfo, setMix } from "../../services/slices/slices";
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
@@ -62,6 +62,8 @@ const BurgerIngredients = () => {
   useEffect(() => {
     dispatch(setMix(mix));
   }, [mix, dispatch]);
+
+  console.log('Root side');
 
   return (
     <div className={clsx(styles.wrapper, "pt-10")}>

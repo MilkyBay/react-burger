@@ -4,7 +4,7 @@ import styles from "./constructor-item.module.css";
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { ingredientPropTypes } from "../../../utils/common-prop-types";
-import { setMix } from "../../../services/slices";
+import { setMix } from "../../../services/slices/slices";
 
 const reorder = (arr, startIndex, endIndex) => {
     const [replaced] = arr.splice(startIndex, 1);

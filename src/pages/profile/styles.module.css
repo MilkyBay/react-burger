@@ -20,7 +20,7 @@
 }
 
 .buttonsActive {
-  color: white;
+  color: white !important;
 }
 
 .navButton {
@@ -34,10 +34,6 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-}
-
-.navButton:hover {
-  color: white;
 }
 
 .note {
@@ -54,4 +50,9 @@
 
 .formsWrapper > div > div {
   width: 480px;
+}
+
+.changeButtons {
+  display: flex;
+  justify-content: space-around;
 }
